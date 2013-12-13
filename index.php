@@ -37,7 +37,7 @@ $emptyArray = array(array());
 
 while ($b!=$d) {
 
-  $tomorrow = mktime(0,0,0,date("m"),date("d")+$b,date("Y")); 
+  $tomorrow = mktime(0,0,0,date("m"),1+$b,date("Y")); 
   $date=date('Y-m-d',$tomorrow);
   $indivisualdate=date('d');
   $timestamp = strtotime($date);
@@ -49,17 +49,29 @@ while ($b!=$d) {
 
 while ($row = $result->fetch())
 { 
-  $events[] = array('id' => $row['id'], 'title' => $row['title'],'description' => $row['description'],'start_date' => $row['start_date'],'end_date' => $row['end_date']);
+  $events[] = array('id' => $row['id'], 'title' => $row['title'],'description' => $row['description'],'start_date' => $row['start_date'],'end_date' => $row['end_date'],'start_month' => $row['start_month'],'end_month' => $row['end_month'],'end_year' => $row['end_year'],'start_year' => $row['start_year']);
 }
 $b=0;
 $emptyArrayTwo=array();
-while($b!=$d-1)
+$emptyArrayThree=array();
+$c=0;
+while($c <= $d-1)
+{
+  $tomorrow = mktime(0,0,0,date("m"),1+$c,date("Y")); 
+  $date=date('Y-m-d',$tomorrow);
+  $indivisualdate=date('d');
+  $timestamp = strtotime($date);
+  $day = date('l', $timestamp);
+  $emptyArrayThree[$c]=$day;
+  $c=$c+1;
+}
+while($b < $d)
 {
   $emptyArrayTwo[$b]="";
   $b=$b+1;
 }
 $b=0;
-while ($b!=$d-1) {
+while ($b <= $d) {
   foreach ($events as $event): 
    if($event['start_date']==$b+1)
     {
@@ -72,6 +84,7 @@ while ($b!=$d-1) {
 }
 
 $b=0;
+
+
 $output= 'database connection established';
 include 'output.html.php';  
-  
